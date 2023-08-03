@@ -32,22 +32,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedTime = DateTime.now();
-  final List<List<DateTime>> weeks = [];
+  final Map<int, List<DateTime>> weeks = {};
   final List<Task> tasks = [];
   late final PageController controller;
+  final int maxCount = 1<<32;
+  int pageIndex = 0;
 
   @override
   void initState() {
-    weeks.add(selectedTime.preWeek());
-    weeks.add(selectedTime.week());
-    weeks.add(selectedTime.nextWeek());
+    pageIndex = maxCount~/2;
+    controller = PageController(initialPage: pageIndex);
+
+    weeks[pageIndex - 1] = selectedTime.preWeek();
+    weeks[pageIndex] = selectedTime.week();
+    weeks[pageIndex + 1] = selectedTime.nextWeek();
 
     tasks.add(Task("Task 001", DateTime.now()));
     tasks.add(Task("Task 002", DateTime.now()));
     tasks.add(Task("Task 003", DateTime.now()));
     tasks.add(Task("Task 004", DateTime.now()));
-
-    controller = PageController(initialPage: 1);
     super.initState();
   }
 
@@ -64,19 +67,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onWeekPageChanged(int index){
-    setState(() {
-      var date = weeks[index].first;
-      if(index == 0){
-        weeks.insert(0, date.preWeek());
-        controller.jumpToPage(1);
-      }else if(index == weeks.length -1){
-        weeks.add(date.nextWeek());
-      }
-    });
+    pageIndex = index;
+
+    fetchWeek(index-1);
+
+    fetchWeek(index+1);
+
+    setState(() {});
+  }
+
+  void fetchWeek(int index){
+    if(weeks.containsKey(index))return;
+
+    int distances = index - pageIndex;
+    List<DateTime> week;
+    var first = weeks[pageIndex]!.first;
+    if(distances > 0){
+      week = first.add(Duration(days: distances*7)).week();
+    }else {
+      week = first.subtract(Duration(days: -distances*7)).week();
+    }
+    weeks[index] = week;
   }
 
   Widget buildWeekView(BuildContext context, int index){
-    return WeekView(week: weeks[index], selectedTime: selectedTime, dateClick: _onDateClick);
+    fetchWeek(index);
+    return WeekView(week: weeks[index]!, selectedTime: selectedTime, dateClick: _onDateClick);
   }
 
   @override
@@ -92,8 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           SizedBox(height: 90, child: PageView.builder(
               controller: controller,
-              itemCount: weeks.length,
-              allowImplicitScrolling: true,
+              itemCount: maxCount,
               onPageChanged: onWeekPageChanged,
               itemBuilder: buildWeekView
           )),
@@ -227,7 +242,6 @@ class WeekView extends StatelessWidget {
 
   Widget buildDateView(DateTime date) {
     const double dayBoxSize = 36;
-    String weekStr = date.format("E");
     String day = date.format("dd");
     bool isToday = date.isSameDay(DateTime.now());
     bool isSelected = date.isSameDay(selectedTime);
@@ -235,32 +249,37 @@ class WeekView extends StatelessWidget {
     Color textColor = isSelected ? Colors.white : Colors.black;
     Color backgroundColor = isSelected ? Colors.blue : Colors.transparent;
     TextStyle dayStyle = TextStyle(fontSize: 14, color: textColor);
-    Decoration dayDecoration = BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(dayBoxSize),
-        border: Border.all(color: Colors.grey, width: 1));
+    Decoration background = BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(dayBoxSize));
 
     return Column(
       children: [
-        Text(weekStr, style: const TextStyle(fontSize: 14)),
+        Text(date.format("E"), style: const TextStyle(fontSize: 14)),
         const SizedBox(height: 8),
-        AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            child: GestureDetector(
-                key: ValueKey("$day $isSelected"),
-                onTap: () => onDateClick(date),
-                child: Container(
-                  alignment: Alignment.center,
-                  width: dayBoxSize,
-                  height: dayBoxSize,
-                  decoration: dayDecoration,
-                  child: Text(day, style: dayStyle),
-                ))),
+        Stack(children: [
+          AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: Container(
+                  key: isSelected ? const ValueKey("AnimationPosition") : null,
+                  width: dayBoxSize, height: dayBoxSize,
+                  decoration: background
+              )
+          ),
+          GestureDetector(
+              onTap: () => onDateClick(date),
+              child: Container(
+                alignment: Alignment.center,
+                width: dayBoxSize,
+                height: dayBoxSize,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(dayBoxSize),
+                    border: Border.all(color: Colors.grey, width: 1)),
+                child: Text(day, style: dayStyle),
+              )
+          )
+        ]),
         const SizedBox(height: 8),
         Visibility(
           visible: isToday,
-          child: Container(
-              width: 8, height: 8, decoration: const ShapeDecoration(color: Colors.red, shape: CircleBorder())),
+          child: Container(width: 8, height: 8, decoration: const ShapeDecoration(color: Colors.red, shape: CircleBorder())),
         )
       ],
     );
