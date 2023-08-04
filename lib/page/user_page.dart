@@ -19,7 +19,7 @@ class _UserPageState extends State<UserPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop('Hello');
           },
         ),
         centerTitle: true,

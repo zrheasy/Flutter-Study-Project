@@ -1,3 +1,5 @@
+import 'package:async/async.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/data/task.dart';
 import 'package:flutter_demo/extension/date_ext.dart';
@@ -14,12 +16,12 @@ class _HomePageState extends State<HomePage> {
   final Map<int, List<DateTime>> weeks = {};
   final List<Task> tasks = [];
   late final PageController controller;
-  final int maxCount = 1<<32;
+  final int maxCount = 1 << 32;
   int pageIndex = 0;
 
   @override
   void initState() {
-    pageIndex = maxCount~/2;
+    pageIndex = maxCount ~/ 2;
     controller = PageController(initialPage: pageIndex);
 
     weeks[pageIndex - 1] = selectedTime.preWeek();
@@ -45,31 +47,31 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void onWeekPageChanged(int index){
+  void onWeekPageChanged(int index) {
     pageIndex = index;
 
-    fetchWeek(index-1);
+    fetchWeek(index - 1);
 
-    fetchWeek(index+1);
+    fetchWeek(index + 1);
 
     setState(() {});
   }
 
-  void fetchWeek(int index){
-    if(weeks.containsKey(index))return;
+  void fetchWeek(int index) {
+    if (weeks.containsKey(index)) return;
 
     int distances = index - pageIndex;
     List<DateTime> week;
     var first = weeks[pageIndex]!.first;
-    if(distances > 0){
-      week = first.add(Duration(days: distances*7)).week();
-    }else {
-      week = first.subtract(Duration(days: -distances*7)).week();
+    if (distances > 0) {
+      week = first.add(Duration(days: distances * 7)).week();
+    } else {
+      week = first.subtract(Duration(days: -distances * 7)).week();
     }
     weeks[index] = week;
   }
 
-  Widget buildWeekView(BuildContext context, int index){
+  Widget buildWeekView(BuildContext context, int index) {
     fetchWeek(index);
     return WeekView(week: weeks[index]!, selectedTime: selectedTime, dateClick: _onDateClick);
   }
@@ -85,12 +87,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 90, child: PageView.builder(
-              controller: controller,
-              itemCount: maxCount,
-              onPageChanged: onWeekPageChanged,
-              itemBuilder: buildWeekView
-          )),
+          SizedBox(
+              height: 90,
+              child: PageView.builder(
+                  controller: controller,
+                  itemCount: maxCount,
+                  onPageChanged: onWeekPageChanged,
+                  itemBuilder: buildWeekView)),
           Expanded(child: SizedBox.expand(child: TasksView(tasks: tasks)))
         ],
       ),
@@ -110,7 +113,7 @@ class TasksView extends StatelessWidget {
 
   Widget buildItem(BuildContext context, int index) {
     Decoration? decoration;
-    if(index != tasks.length -1){
+    if (index != tasks.length - 1) {
       decoration = const TimeLineDecoration(Colors.grey, 2, Offset(24, 32));
     }
     Task task = tasks[index];
@@ -130,7 +133,8 @@ class TasksView extends StatelessWidget {
               flex: 1,
               child: Container(
                   padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6))),
+                  decoration:
+                      const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -138,8 +142,7 @@ class TasksView extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(task.dateTime.format("HH:mm:ss"), style: const TextStyle(fontSize: 12))
                     ],
-                  )
-              ))
+                  )))
         ],
       ),
     );
@@ -151,7 +154,7 @@ class TasksView extends StatelessWidget {
   }
 }
 
-class TimeLineDecoration extends Decoration{
+class TimeLineDecoration extends Decoration {
   final Color lineColor;
   final double lineWidth;
   final Offset? lineOffset;
@@ -164,8 +167,8 @@ class TimeLineDecoration extends Decoration{
   }
 }
 
-class _TimeLinePainter extends BoxPainter{
-  _TimeLinePainter(this.lineColor, this.lineWidth, [this.lineOffset]){
+class _TimeLinePainter extends BoxPainter {
+  _TimeLinePainter(this.lineColor, this.lineWidth, [this.lineOffset]) {
     _paint = Paint()
       ..color = lineColor
       ..strokeWidth = lineWidth
@@ -182,8 +185,8 @@ class _TimeLinePainter extends BoxPainter{
     final Rect rect = offset & configuration.size!;
     double offsetX = lineOffset?.dx ?? 0;
     double offsetY = lineOffset?.dy ?? 0;
-    var p1 = Offset(offsetX + rect.left, rect.top+offsetY);
-    var p2 = Offset(offsetX + rect.left, rect.bottom+offsetY);
+    var p1 = Offset(offsetX + rect.left, rect.top + offsetY);
+    var p2 = Offset(offsetX + rect.left, rect.bottom + offsetY);
     canvas.drawLine(p1, p2, _paint);
   }
 }
@@ -239,26 +242,25 @@ class WeekView extends StatelessWidget {
               duration: const Duration(milliseconds: 250),
               child: Container(
                   key: isSelected ? const ValueKey("AnimationPosition") : null,
-                  width: dayBoxSize, height: dayBoxSize,
-                  decoration: background
-              )
-          ),
+                  width: dayBoxSize,
+                  height: dayBoxSize,
+                  decoration: background)),
           GestureDetector(
               onTap: () => onDateClick(date),
               child: Container(
                 alignment: Alignment.center,
                 width: dayBoxSize,
                 height: dayBoxSize,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(dayBoxSize),
-                    border: Border.all(color: Colors.grey, width: 1)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(dayBoxSize), border: Border.all(color: Colors.grey, width: 1)),
                 child: Text(day, style: dayStyle),
-              )
-          )
+              ))
         ]),
         const SizedBox(height: 8),
         Visibility(
           visible: isToday,
-          child: Container(width: 8, height: 8, decoration: const ShapeDecoration(color: Colors.red, shape: CircleBorder())),
+          child: Container(
+              width: 8, height: 8, decoration: const ShapeDecoration(color: Colors.red, shape: CircleBorder())),
         )
       ],
     );
@@ -304,8 +306,9 @@ class Header extends StatelessWidget {
                   ],
                 )),
             InkWell(
-              onTap: (){
-                Navigator.of(context).pushNamed('user', arguments: 'Jack Ma');
+              onTap: () async {
+                var result = await Navigator.of(context).pushNamed('user', arguments: 'Jack Ma');
+                print("user result:$result");
               },
               child: Image.asset("assets/avatar.webp", width: 32, height: 32),
             ),
