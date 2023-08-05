@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/extension/asset_manager.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/page/home.dart';
 import 'package:flutter_demo/page/user_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  AssetManager.init();
   runApp(const MyApp());
 }
 
