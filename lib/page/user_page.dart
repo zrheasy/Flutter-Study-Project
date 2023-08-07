@@ -42,6 +42,7 @@ class _UserPageState extends State<UserPage> {
           IconItem(title: AssetManager.string('language'), icon: Icons.language),
           SwitchItem(title: 'Notification', selected: notificationEnable, onChanged: onNotificationEnable),
           RowItem(title: 'ConstraintLayout', onClick: () => context.navigate('constraint_layout')),
+          RowItem(title: 'FlowLayout', onClick: () => context.navigate('flow_layout')),
         ])),
         card(context, TextButton(
             onPressed: () => context.navigate('login'),
