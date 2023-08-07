@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/extension/context_ext.dart';
+import 'package:flutter_demo/widget/page_scaffold.dart';
 import '../extension/asset_manager.dart';
 import '../data/user.dart';
 
@@ -20,48 +22,31 @@ class _UserPageState extends State<UserPage> {
     });
   }
 
+  Widget card(BuildContext context, Widget child){
+    return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(left: 16, right: 16, top: 10),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+        child: child);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(247, 247, 247, 1),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop('Success');
-          },
-        ),
-        centerTitle: true,
-        title: const Text('Profile', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-      ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-            margin: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-            child: Column(children: [
-              RowItem(title: AssetManager.string('nickname'), content: widget.user.name),
-              RowItem(title: AssetManager.string('email'), content: widget.user.email),
-              RowItem(
-                  title: 'Throw Error',
-                  onClick: () {
-                    throw FlutterError('test');
-                  }),
-              IconItem(title: AssetManager.string('language'), icon: Icons.language),
-              SwitchItem(title: 'Notification', selected: notificationEnable, onChanged: onNotificationEnable)
-            ])),
-        Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-            child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('login');
-                },
-                child: const Text('Login', style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold))
-            )
-        )
-      ]),
+    return PageScaffold(
+      title: 'Profile',
+      body: Column(children: [
+        card(context, Column(children: [
+          RowItem(title: AssetManager.string('nickname'), content: widget.user.name),
+          RowItem(title: AssetManager.string('email'), content: widget.user.email),
+          RowItem(title: 'Throw Error', onClick: () => throw FlutterError('test')),
+          IconItem(title: AssetManager.string('language'), icon: Icons.language),
+          SwitchItem(title: 'Notification', selected: notificationEnable, onChanged: onNotificationEnable),
+          RowItem(title: 'ConstraintLayout', onClick: () => context.navigate('constraint_layout')),
+        ])),
+        card(context, TextButton(
+            onPressed: () => context.navigate('login'),
+            child: const Text('Login', style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold))))
+      ])
     );
   }
 }
