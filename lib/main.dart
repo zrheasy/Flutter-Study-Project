@@ -5,6 +5,7 @@ import 'package:flutter_demo/data/user.dart';
 import 'package:flutter_demo/extension/asset_manager.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/page/home.dart';
+import 'package:flutter_demo/page/login_page.dart';
 import 'package:flutter_demo/page/user_page.dart';
 
 void main() {
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const HomePage(),
           'user': (context) => UserPage(user: (context.args as User)),
+          'login': (context) => const LoginPage(),
         });
   }
 }
