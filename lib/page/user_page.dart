@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/extension/asset_manager.dart';
+import '../extension/asset_manager.dart';
+import '../data/user.dart';
 
 class UserPage extends StatefulWidget {
-  const UserPage({super.key, required this.name});
+  const UserPage({super.key, required this.user});
 
-  final String name;
+  final User user;
 
   @override
   State<StatefulWidget> createState() => _UserPageState();
@@ -31,29 +32,39 @@ class _UserPageState extends State<UserPage> {
             margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
             child: Column(children: [
-              Container(
-                margin: const EdgeInsets.all(16),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  const Text('NickName', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const Expanded(child: SizedBox()),
-                  Text(widget.name),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.keyboard_arrow_right_outlined)
-                ]),
-              ),
-              Container(
-                margin: const EdgeInsets.all(16),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  const Text('Email', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const Expanded(child: SizedBox()),
-                  Text(AssetManager.string('email')),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.keyboard_arrow_right_outlined)
-                ]),
-              )
-            ])
-        )
+              RowItem(title: AssetManager.string('nickname'), content: widget.user.name),
+              RowItem(title: AssetManager.string('email'), content: widget.user.email),
+              RowItem(
+                  title: 'Error',
+                  onClick: () {
+                    throw FlutterError('test');
+                  }),
+            ]))
       ]),
     );
+  }
+}
+
+class RowItem extends StatelessWidget {
+  const RowItem({super.key, required this.title, this.content, this.onClick});
+
+  final String title;
+  final String? content;
+  final Function? onClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () => onClick?.call(),
+        child: Container(
+          margin: const EdgeInsets.all(16),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Expanded(child: SizedBox()),
+            Text(content ?? ''),
+            const SizedBox(width: 4),
+            const Icon(Icons.keyboard_arrow_right_outlined)
+          ]),
+        ));
   }
 }

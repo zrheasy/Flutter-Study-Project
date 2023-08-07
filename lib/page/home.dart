@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/data/task.dart';
+import 'package:flutter_demo/data/user.dart';
 import 'package:flutter_demo/extension/date_ext.dart';
 
 class HomePage extends StatefulWidget {
@@ -307,7 +308,7 @@ class Header extends StatelessWidget {
                 )),
             InkWell(
               onTap: () async {
-                var result = await Navigator.of(context).pushNamed('user', arguments: 'Jack Ma');
+                var result = await Navigator.of(context).pushNamed('user', arguments: User('Jack Ma', '12345678@qq.com'));
                 print("user result:$result");
               },
               child: Image.asset("assets/avatar.webp", width: 32, height: 32),
