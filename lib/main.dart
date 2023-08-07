@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/data/user.dart';
 import 'package:flutter_demo/extension/asset_manager.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
+import 'package:flutter_demo/page/align_layout.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
 import 'package:flutter_demo/page/flow_layout.dart';
 import 'package:flutter_demo/page/home.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
           'login': (context) => const LoginPage(),
           'constraint_layout': (context) => const ConstraintLayoutPage(),
           'flow_layout': (context) => const FlowLayoutPage(),
+          'align_layout': (context) => const AlignLayoutPage(),
         });
   }
 }
