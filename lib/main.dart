@@ -11,6 +11,7 @@ import 'package:flutter_demo/page/grid_view.dart';
 import 'package:flutter_demo/page/home.dart';
 import 'package:flutter_demo/page/list_view.dart';
 import 'package:flutter_demo/page/login_page.dart';
+import 'package:flutter_demo/page/page_view.dart';
 import 'package:flutter_demo/page/user_page.dart';
 import 'package:flutter_demo/page/widgets_page.dart';
 
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
           'align_layout': (context) => const AlignLayoutPage(),
           'list_view': (context) => const ListViewPage(),
           'grid_view': (context) => const GridViewPage(),
+          'page_view': (context) => const PageViewPage(),
         });
   }
 }
