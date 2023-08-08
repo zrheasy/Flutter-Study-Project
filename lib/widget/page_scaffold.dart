@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 
 class PageScaffold extends StatelessWidget {
-  const PageScaffold({super.key, required this.body, this.showAppBar = true, this.showLeading = true, this.title});
+  const PageScaffold({super.key, required this.body, this.showAppBar = true, this.showLeading = true, this.title, this.floatingActionButton});
 
   final Widget body;
   final bool showLeading;
   final bool showAppBar;
   final String? title;
+  final Widget? floatingActionButton;
 
   Widget? buildLeadingButton(BuildContext context){
     if(!showLeading)return null;
@@ -35,6 +36,11 @@ class PageScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: const Color.fromRGBO(247, 247, 247, 1), appBar: buildAppBar(context), body: body);
+    return Scaffold(
+        backgroundColor: const Color.fromRGBO(247, 247, 247, 1),
+        appBar: buildAppBar(context),
+        body: body,
+        floatingActionButton: floatingActionButton,
+    );
   }
 }

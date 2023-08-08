@@ -11,6 +11,31 @@ class ListViewPage extends StatefulWidget {
 class _ListViewState extends State<ListViewPage> {
   var itemCount = 20;
   var isLoading = false;
+  ScrollController controller = ScrollController();
+  var showUpButton = false;
+
+  @override
+  void initState() {
+    controller.addListener(() {
+      print(controller.offset);
+      if (controller.offset < 100 && showUpButton) {
+        setState(() {
+          showUpButton = false;
+        });
+      } else if (controller.offset > 100 && !showUpButton) {
+        setState(() {
+          showUpButton = true;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   void load() {
     if (isLoading) return;
@@ -41,11 +66,21 @@ class _ListViewState extends State<ListViewPage> {
     return const Divider(color: Colors.blue);
   }
 
+  void onUp() {
+    controller.animateTo(0.0, duration: const Duration(seconds: 2), curve: Curves.easeIn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
         title: 'ListView',
+        floatingActionButton:
+            !showUpButton ? null : FloatingActionButton(onPressed: onUp, child: const Icon(Icons.arrow_upward)),
         body: ListView.separated(
-            cacheExtent: 56, itemBuilder: buildItem, separatorBuilder: buildDivider, itemCount: itemCount));
+            controller: controller,
+            cacheExtent: 56,
+            itemBuilder: buildItem,
+            separatorBuilder: buildDivider,
+            itemCount: itemCount));
   }
 }
