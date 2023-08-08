@@ -7,6 +7,7 @@ import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/page/align_layout.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
 import 'package:flutter_demo/page/flow_layout.dart';
+import 'package:flutter_demo/page/grid_view.dart';
 import 'package:flutter_demo/page/home.dart';
 import 'package:flutter_demo/page/list_view.dart';
 import 'package:flutter_demo/page/login_page.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           'flow_layout': (context) => const FlowLayoutPage(),
           'align_layout': (context) => const AlignLayoutPage(),
           'list_view': (context) => const ListViewPage(),
+          'grid_view': (context) => const GridViewPage(),
         });
   }
 }

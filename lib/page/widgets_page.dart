@@ -19,6 +19,7 @@ class WidgetsPage extends StatelessWidget {
                   RowItem(title: 'FlowLayout', onClick: () => context.navigate('flow_layout')),
                   RowItem(title: 'AlignLayout', onClick: () => context.navigate('align_layout')),
                   RowItem(title: 'ListView', onClick: () => context.navigate('list_view')),
+                  RowItem(title: 'GridView', onClick: () => context.navigate('grid_view')),
 
                   const SizedBox(width: double.infinity, height: 800)
                 ]))));
