@@ -8,6 +8,7 @@ import 'package:flutter_demo/page/align_layout.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
 import 'package:flutter_demo/page/counter_page.dart';
 import 'package:flutter_demo/page/custom_scroll_view.dart';
+import 'package:flutter_demo/page/dialog.dart';
 import 'package:flutter_demo/page/flow_layout.dart';
 import 'package:flutter_demo/page/grid_view.dart';
 import 'package:flutter_demo/page/home.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
           'custom_scroll_view': (context) => const CustomScrollViewPage(),
           'provider': (context) => const ProviderPage(),
           'counter': (context) => const CounterPage(),
+          'dialog': (context) => const DialogPage(),
         });
   }
 }
