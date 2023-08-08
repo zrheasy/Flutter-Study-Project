@@ -6,6 +6,7 @@ import 'package:flutter_demo/extension/asset_manager.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/page/align_layout.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
+import 'package:flutter_demo/page/counter_page.dart';
 import 'package:flutter_demo/page/custom_scroll_view.dart';
 import 'package:flutter_demo/page/flow_layout.dart';
 import 'package:flutter_demo/page/grid_view.dart';
@@ -13,9 +14,12 @@ import 'package:flutter_demo/page/home.dart';
 import 'package:flutter_demo/page/list_view.dart';
 import 'package:flutter_demo/page/login_page.dart';
 import 'package:flutter_demo/page/page_view.dart';
+import 'package:flutter_demo/page/provider_page.dart';
 import 'package:flutter_demo/page/tab_bar_view.dart';
 import 'package:flutter_demo/page/user_page.dart';
 import 'package:flutter_demo/page/widgets_page.dart';
+import 'package:flutter_demo/provider/counter.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -37,7 +41,12 @@ void main() {
 void startApp() {
   WidgetsFlutterBinding.ensureInitialized();
   AssetManager.init();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CounterModel>(create: (_) => CounterModel())
+      ],
+      child: const MyApp()
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -68,6 +77,8 @@ class MyApp extends StatelessWidget {
           'page_view': (context) => const PageViewPage(),
           'tab_bar_view': (context) => const TabBarViewPage(),
           'custom_scroll_view': (context) => const CustomScrollViewPage(),
+          'provider': (context) => const ProviderPage(),
+          'counter': (context) => const CounterPage(),
         });
   }
 }

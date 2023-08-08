@@ -23,6 +23,7 @@ class WidgetsPage extends StatelessWidget {
                   RowItem(title: 'PageView', onClick: () => context.navigate('page_view')),
                   RowItem(title: 'TabBarView', onClick: () => context.navigate('tab_bar_view')),
                   RowItem(title: 'CustomScrollView', onClick: () => context.navigate('custom_scroll_view')),
+                  RowItem(title: 'Provider', onClick: () => context.navigate('provider')),
 
                   const SizedBox(width: double.infinity, height: 800)
                 ]))));
