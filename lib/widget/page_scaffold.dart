@@ -25,6 +25,7 @@ class PageScaffold extends StatelessWidget {
 
     String text = title??'';
     return AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: buildLeadingButton(context),
         centerTitle: true,

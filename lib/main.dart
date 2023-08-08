@@ -8,8 +8,10 @@ import 'package:flutter_demo/page/align_layout.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
 import 'package:flutter_demo/page/flow_layout.dart';
 import 'package:flutter_demo/page/home.dart';
+import 'package:flutter_demo/page/list_view.dart';
 import 'package:flutter_demo/page/login_page.dart';
 import 'package:flutter_demo/page/user_page.dart';
+import 'package:flutter_demo/page/widgets_page.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -48,14 +50,16 @@ class MyApp extends StatelessWidget {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             })),
-        initialRoute: '/',
+        initialRoute: 'widgets',
         routes: {
           '/': (context) => const HomePage(),
           'user': (context) => UserPage(user: (context.args as User)),
           'login': (context) => const LoginPage(),
+          'widgets': (context) => const WidgetsPage(),
           'constraint_layout': (context) => const ConstraintLayoutPage(),
           'flow_layout': (context) => const FlowLayoutPage(),
           'align_layout': (context) => const AlignLayoutPage(),
+          'list_view': (context) => const ListViewPage(),
         });
   }
 }
