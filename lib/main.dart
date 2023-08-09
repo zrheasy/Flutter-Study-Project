@@ -14,6 +14,7 @@ import 'package:flutter_demo/page/grid_view.dart';
 import 'package:flutter_demo/page/home.dart';
 import 'package:flutter_demo/page/list_view.dart';
 import 'package:flutter_demo/page/login_page.dart';
+import 'package:flutter_demo/page/notification_page.dart';
 import 'package:flutter_demo/page/page_view.dart';
 import 'package:flutter_demo/page/provider_page.dart';
 import 'package:flutter_demo/page/tab_bar_view.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
           'provider': (context) => const ProviderPage(),
           'counter': (context) => const CounterPage(),
           'dialog': (context) => const DialogPage(),
+          'notification': (context) => const NotificationPage(),
         });
   }
 }

@@ -25,6 +25,7 @@ class WidgetsPage extends StatelessWidget {
                   RowItem(title: 'CustomScrollView', onClick: () => context.navigate('custom_scroll_view')),
                   RowItem(title: 'Provider', onClick: () => context.navigate('provider')),
                   RowItem(title: 'Dialog', onClick: () => context.navigate('dialog')),
+                  RowItem(title: 'Notification', onClick: () => context.navigate('notification')),
 
                   const SizedBox(width: double.infinity, height: 800)
                 ]))));
