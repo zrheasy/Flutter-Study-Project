@@ -7,12 +7,6 @@ class CounterModel with ChangeNotifier{
 
   int get count => _value;
 
-  @override
-  void addListener(VoidCallback listener) {
-    super.addListener(listener);
-    print(listener);
-  }
-
   void increment(){
     _value++;
     notifyListeners();

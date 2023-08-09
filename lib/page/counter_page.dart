@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/provider/counter.dart';
+import 'package:flutter_demo/utils/event_bus.dart';
 import 'package:flutter_demo/widget/page_scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class CounterPage extends StatelessWidget {
                   onPressed: () {
                     var counter = context.read<CounterModel>();
                     counter.increment();
+                    EventBus.emit('counter', counter.count);
                   },
                   child: const Text("increment"))),
           Center(child: Builder(builder: (context) {
