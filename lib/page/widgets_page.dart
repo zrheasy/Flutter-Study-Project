@@ -26,6 +26,7 @@ class WidgetsPage extends StatelessWidget {
                   RowItem(title: 'Provider', onClick: () => context.navigate('provider')),
                   RowItem(title: 'Dialog', onClick: () => context.navigate('dialog')),
                   RowItem(title: 'Notification', onClick: () => context.navigate('notification')),
+                  RowItem(title: 'Animation', onClick: () => context.navigate('animation')),
 
                   const SizedBox(width: double.infinity, height: 800)
                 ]))));

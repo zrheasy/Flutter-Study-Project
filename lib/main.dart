@@ -5,6 +5,7 @@ import 'package:flutter_demo/data/user.dart';
 import 'package:flutter_demo/extension/asset_manager.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
 import 'package:flutter_demo/page/align_layout.dart';
+import 'package:flutter_demo/page/animation.dart';
 import 'package:flutter_demo/page/constraint_layout.dart';
 import 'package:flutter_demo/page/counter_page.dart';
 import 'package:flutter_demo/page/custom_scroll_view.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
           'counter': (context) => const CounterPage(),
           'dialog': (context) => const DialogPage(),
           'notification': (context) => const NotificationPage(),
+          'animation': (context) => const AnimationPage(),
         });
   }
 }
