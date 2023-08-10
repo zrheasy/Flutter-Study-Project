@@ -18,6 +18,7 @@ class FlowLayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var list = items();
     return PageScaffold(
         title: 'FlowLayout',
         body: Column(
@@ -27,9 +28,19 @@ class FlowLayoutPage extends StatelessWidget {
               alignment: WrapAlignment.start,
               spacing: 8,
               runSpacing: 8,
-              children: items()
+              children: list
             ),
-            Flow(delegate: _FlowDelegate(spacing: 8, runSpacing: 8), children: items())
+            Container(color: Colors.black, child: Flow(delegate: _FlowDelegate(spacing: 8, runSpacing: 8, count: list.length), children: list)),
+            Expanded(child: SizedBox.expand(child: LayoutBuilder(builder: (_, constraints){
+              return OverflowBox(
+                minWidth: constraints.maxWidth + 20,
+                maxWidth: constraints.maxWidth + 20,
+                minHeight: constraints.maxHeight,
+                maxHeight: constraints.maxHeight,
+                alignment: Alignment.topRight,
+                child: DecoratedBox(decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/avatar.webp'), repeat: ImageRepeat.repeat, alignment: Alignment.topLeft)),),
+              );
+            })))
           ]
         ));
   }
@@ -38,11 +49,13 @@ class FlowLayoutPage extends StatelessWidget {
 
 
 class _FlowDelegate extends FlowDelegate{
-  _FlowDelegate({this.spacing = 0.0, this.runSpacing = 0.0});
+  _FlowDelegate({this.spacing = 0.0, this.runSpacing = 0.0, required this.count});
 
   final double spacing;
 
   final double runSpacing;
+
+  final int count;
 
   double width = 0.0;
   double height = 0.0;
@@ -69,7 +82,7 @@ class _FlowDelegate extends FlowDelegate{
 
   @override
   Size getSize(BoxConstraints constraints) {
-    return Size(double.infinity, 200);
+    return Size(constraints.maxWidth, 200);
   }
 
   @override
