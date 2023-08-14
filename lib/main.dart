@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             })),
-        initialRoute: 'widgets',
+        initialRoute: '/',
         routes: {
           '/': (context) => const HomePage(),
           'user': (context) => UserPage(user: (context.args as User)),

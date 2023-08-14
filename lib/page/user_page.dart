@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/extension/context_ext.dart';
+import 'package:flutter_demo/platform/hello/hello.dart';
 import 'package:flutter_demo/widget/page_scaffold.dart';
 import '../extension/asset_manager.dart';
 import '../data/user.dart';
@@ -16,6 +18,26 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   bool notificationEnable = false;
+  String version = '0.0.0';
+
+  @override
+  void initState() {
+    super.initState();
+
+    getVersion();
+  }
+
+  void getVersion() async{
+    try{
+      var v = await Hello().getAppVersion();
+      if(v != null && mounted){
+        version = v;
+        setState(() {});
+      }
+    }catch(e){
+      print(e);
+    }
+  }
 
   void onNotificationEnable(bool enable) {
     setState(() {
@@ -39,9 +61,11 @@ class _UserPageState extends State<UserPage> {
         card(context, Column(children: [
           RowItem(title: AssetManager.string('nickname'), content: widget.user.name),
           RowItem(title: AssetManager.string('email'), content: widget.user.email),
+          RowItem(title: 'Version', content: version),
           RowItem(title: 'Throw Error', onClick: () => throw FlutterError('test')),
           IconItem(title: AssetManager.string('language'), icon: Icons.language),
           SwitchItem(title: 'Notification', selected: notificationEnable, onChanged: onNotificationEnable),
+          RowItem(title: 'Widgets', onClick: () => context.navigate('widgets')),
         ])),
         card(context, TextButton(
             onPressed: () => context.navigate('login'),
